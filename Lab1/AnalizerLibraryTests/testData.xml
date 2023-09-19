@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TestData>
+  <data expression="2+3+a" error="Error 02 at &lt;i&gt; — Невідомий оператор на &lt;i&gt; символі." position="4"/>
+  <data expression="2(+2" error="Error 01 at &lt;i&gt; — Неправильна структура в дужках, помилка на &lt;i&gt; символі." position="1"/>
+  <data expression="2+2m+2" error="Error 01 at &lt;i&gt; — Неправильна структура в дужках, помилка на &lt;i&gt; символі." position="3"/>
+  <data expression="2+2p+2" error="Error 01 at &lt;i&gt; — Неправильна структура в дужках, помилка на &lt;i&gt; символі." position="3"/>
+  <data expression="2++3" error="Error 04 at &lt;i&gt; — Два підряд оператори на &lt;i&gt; символі." position="2"/>
+  <data expression="2+)3" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(+2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(-2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(*2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(/2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(%2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+()2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(2+2)(+2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(2+2)m+2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(2+2)p+2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+(2+2)2+2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="m)2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="mm2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="mp2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="m+2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="m-2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="m/2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="m*2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="m%2" error="Error 03 — Невірна синтаксична конструкція вхідного виразу." position="-1"/>
+  <data expression="2+3m" error="Error 05 — Незавершений вираз." position="-1"/>
+</TestData>
