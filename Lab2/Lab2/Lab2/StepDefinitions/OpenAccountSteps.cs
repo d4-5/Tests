@@ -22,13 +22,10 @@ namespace SpecFlowPageObjectWebDriver.Steps
         [When(@"click (.*), chose customer name: (.*), currency: (.*) and click (.*)")]
         public void WhenChoseCustomerCurrencyAndClickProcess(string Button1, string CustomerName, string Currency, string Button2)
         {
-            Thread.Sleep(2000);
             managerPage.ClickButton(Button1);
-            Thread.Sleep(1000);
             managerPage.ChoseCustomerName(CustomerName);
             managerPage.ChoseCurrency(Currency);
             managerPage.ClickButton(Button2);
-            Thread.Sleep(1000);
         }
 
         [Then(@"the result should be an alert that contains (.*)")]

@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Remote;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,25 @@ namespace PageObject
         {
             wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
         }
-        private IWebElement CustomerName(string name) => driver.FindElement(By.XPath($"//option[text()=\"{name}\"]"));
-        private IWebElement Currency(string currency) => driver.FindElement(By.XPath($"//option[text()=\"{currency}\"]"));
+        //private IWebElement CustomerName(string name) => driver.FindElement(By.XPath($"//option[text()=\"{name}\"]"));
+        //rivate IWebElement Currency(string currency) => driver.FindElement(By.XPath($"//option[text()=\"{currency}\"]"));
 
-        public void ChoseCustomerName(string name) => CustomerName(name).Click();
-        public void ChoseCurrency(string currency) => Currency(currency).Click();
+        //public void ChoseCustomerName(string name) => CustomerName(name).Click();
+        //public void ChoseCurrency(string currency) => Currency(currency).Click();
+        public void ChoseCustomerName(string name)
+        {
+            var dropDown = driver.FindElement(By.Id("userSelect"));
+            var selectElement = new SelectElement(dropDown);
+            selectElement.SelectByText(name);
+        }
+        public void ChoseCurrency(string currency)
+        {
+            var dropDown = driver.FindElement(By.Id("currency"));
+            var selectElement = new SelectElement(dropDown);
+            selectElement.SelectByText(currency);
+        }
+
+        private IWebElement CustomerNameDropdown() => driver.FindElement(By.Id("your-dropdown-element-id"));
         public void ClickButton(string button) => driver.FindElement(By.XPath($"//button[contains(text(), '{button}')]")).Click();
         public string AlertText()
         {

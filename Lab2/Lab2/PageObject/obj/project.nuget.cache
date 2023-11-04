@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6iRXtgrIYFpcx2ydh91lp/Fe4/lVOU3VttjYaWBeU+x4XM0fQsSBUAS89YJZplHCuOMH1FQpqJ3m1pdIM8OWhA==",
+  "dgSpecHash": "ILb0zwBySjvRx4hnUTw+ZTV1rKsZpmXUvV9VIbD5Y/j2jEn6fY4ZyVOeDmEs05jyr7zTpw5sMxsr/3jNLSEitQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\HP\\Desktop\\Tests\\Lab2\\Lab2\\PageObject\\PageObject.csproj",
   "expectedPackageFiles": [
@@ -28,8 +28,9 @@
     "C:\\Users\\HP\\.nuget\\packages\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\selenium.webdriver\\4.14.1\\selenium.webdriver.4.14.1.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\selenium.webdriver.chromedriver\\118.0.5993.7000\\selenium.webdriver.chromedriver.118.0.5993.7000.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\selenium.support\\4.15.0\\selenium.support.4.15.0.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\selenium.webdriver\\4.15.0\\selenium.webdriver.4.15.0.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\selenium.webdriver.chromedriver\\119.0.6045.10500\\selenium.webdriver.chromedriver.119.0.6045.10500.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\specflow\\3.9.74\\specflow.3.9.74.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\specflow.internal.json\\1.0.8\\specflow.internal.json.1.0.8.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\system.appcontext\\4.1.0\\system.appcontext.4.1.0.nupkg.sha512",

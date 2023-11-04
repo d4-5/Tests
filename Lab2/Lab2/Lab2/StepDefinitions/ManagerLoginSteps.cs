@@ -21,9 +21,7 @@ namespace SpecFlowPageObjectWebDriver.Steps
         [When(@"click Bank Manager Login")]
         public void WhenClickBankManagerLogin()
         {
-            Thread.Sleep(1000);
             loginPage.ClickBankManagerLogin();
-            Thread.Sleep(1000);
         }
 
         [Then(@"the result should be page that contains button (.*)")]
