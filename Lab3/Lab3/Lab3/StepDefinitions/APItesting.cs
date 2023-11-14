@@ -1,55 +1,82 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using RestSharp;
+using System;
 using System.Net;
 using TechTalk.SpecFlow;
 
 namespace SpecFlowRestApi.Steps
 {
     [Binding]
-    public class RestApiTestingSteps
+    public class APItesting
     {
         private RestClient client;
         private RestRequest request;
         private RestResponse response;
 
-        [Given(@"connect to db")]
-        public void GivenConnectToDb()
+        [Given(@"connect to (.*)")]
+        public void GivenConnectTo(string url)
         {
-            client = new RestClient("https://restful-booker.herokuapp.com/");
+            client = new RestClient(url);
 
         }
 
-        [Given(@"create get request to (.*)")]
-        public void GivenCreateGetRequest(string url)
+        [Given(@"create (.*) request to (.*)")]
+        public void GivenCreateRequest(string method, string url)
         {
-            request = new RestRequest(url, Method.Get);
-        }
-
-        [Given(@"create post request to (.*)")]
-        public void GivenCreatePostRequest(string url)
-        {
-            request = new RestRequest(url, Method.Post);
-        }
-
-        [Given(@"include json body that contains new booking")]
-        public void GivenJSONNewBooking()
-        {
-            string newBookingJson = @"
+            Method restMethod;
+            switch (method.ToUpper())
             {
-                ""firstname"": ""Jim"",
-                ""lastname"": ""Brown"",
-                ""totalprice"": 111,
-                ""depositpaid"": true,
-                ""bookingdates"": {
-                    ""checkin"": ""2018-01-01"",
-                    ""checkout"": ""2019-01-01""
-                },
-                ""additionalneeds"": ""Breakfast""
-            }";
+                case "GET":
+                    restMethod = Method.Get;
+                    break;
+                case "POST":
+                    restMethod = Method.Post;
+                    break;
+                case "DELETE":
+                    restMethod = Method.Delete;
+                    break;
+                case "PUT":
+                    restMethod = Method.Put;
+                    break;
+                default:
+                    throw new ArgumentException($"Unsupported HTTP method: {method}");
+            }
 
-            request.AddJsonBody(newBookingJson);
+            request = new RestRequest(url, restMethod);
+        }
+
+        [Given(@"add authorization token")]
+        public void GivenAddAuthToken()
+        {
+            RestRequest authRequest = new RestRequest("auth", Method.Post);
+            authRequest.AddJsonBody(new
+            {
+                username = "admin",
+                password = "password123"
+            });
+
+            RestResponse authResponse = client.Execute(authRequest);
+            dynamic authResponseObject = JObject.Parse(authResponse.Content);
+            string token = authResponseObject.token;
+
+            Uri uri = client.BuildUri(request);
+            string path = uri.AbsolutePath;
+            string domain = uri.Host;
+            request.AddCookie("token", token, path, domain);
+        }
+
+        [Given(@"add header (.*) with value (.*)")]
+        public void GivenAddHeader(string header, string value)
+        {
+            request.AddHeader(header, value);
+        }
+        [Given(@"add parameter (.*) with value (.*)")]
+        public void GivenAddParameter(string parameter, string value)
+        {
+            request.AddParameter(parameter, value);
         }
 
         [When(@"send request")]
@@ -57,61 +84,110 @@ namespace SpecFlowRestApi.Steps
         {
             response = client.Execute(request);
         }
-
-        [Then(@"response is success")]
-        public void ThenResponseIsSuccess()
+        public int id;
+        [Given(@"create booking")]
+        public void GivenCreateBooking()
         {
-
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            APItesting t = new APItesting();
+            t.GivenConnectTo("https://restful-booker.herokuapp.com");
+            t.GivenCreateRequest("POST", "booking");
+            t.GivenAddHeader("Accept", "application/json");
+            t.GivenAddJSONWithBooking();
+            t.WhenSendRequest();
+            string jsonResponse = t.response.Content;
+            BookingResponse bookingResponse = JsonConvert.DeserializeObject<BookingResponse>(jsonResponse);
+            id = bookingResponse.bookingid;
+        }
+        [Given(@"set parameter id")]
+        public void GivenSetParameterID()
+        {
+            request.AddParameter("id", id, ParameterType.UrlSegment);
         }
 
-        [Then(@"json that contains booking")]
-        public void ThenResponseShouldContainJSONBooking()
+        [Then(@"response is (.*)")]
+        public void ThenResponseIs(string expectedResponseType)
         {
-            dynamic responseObject = JsonConvert.DeserializeObject(response.Content);
-
-            JObject expectedJson = JObject.Parse(@"
+            HttpStatusCode expectedStatusCode;
+            switch (expectedResponseType.ToUpper())
             {
-                ""firstname"": ""Sally"",
-                ""lastname"": ""Brown"",
-                ""totalprice"": 111,
-                ""depositpaid"": true,
-                ""bookingdates"": {
-                    ""checkin"": ""2013-02-23"",
-                    ""checkout"": ""2014-10-23""
-                },
-                ""additionalneeds"": ""Breakfast""
-            }");
+                case "OK":
+                    expectedStatusCode = HttpStatusCode.OK;
+                    break;
+                case "CREATED":
+                    expectedStatusCode = HttpStatusCode.Created;
+                    break;
+                default:
+                    throw new ArgumentException($"Unsupported response type: {expectedResponseType}");
+            }
 
-            Assert.AreEqual(expectedJson, JObject.FromObject(responseObject.booking));
+            Assert.That(response.StatusCode, Is.EqualTo(expectedStatusCode));
+        }
+        [Given(@"add json with booking")]
+        public void GivenAddJSONWithBooking()
+        {
+            var booking = new Booking
+            {
+                firstname = "Jim",
+                lastname = "Brown",
+                totalprice = 111,
+                depositpaid = true,
+                bookingdates = new BookingDates
+                {
+                    checkin = "2018-01-01",
+                    checkout = "2019-01-01"
+                },
+                additionalneeds = "Breakfast"
+            };
+            request.AddJsonBody(booking);
         }
 
-        [Then(@"json that contains the same booking")]
-        public void ThenResponseShouldContainTheSameBooking()
+        [Then(@"response contains json with booking")]
+        public void ThenResponseContainsJSONWithBooking()
         {
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            dynamic responseObject = JsonConvert.DeserializeObject(response.Content);
+            string jsonResponse = response.Content;
+            BookingResponse bookingResponse = JsonConvert.DeserializeObject<BookingResponse>(jsonResponse);
 
-            JObject expectedJson = JObject.Parse(@"
+            Assert.GreaterOrEqual(bookingResponse.bookingid, 0);
+            Assert.AreEqual("Jim", bookingResponse.booking.firstname);
+            Assert.AreEqual("Brown", bookingResponse.booking.lastname);
+            Assert.AreEqual(111, bookingResponse.booking.totalprice);
+            Assert.IsTrue(bookingResponse.booking.depositpaid);
+            Assert.AreEqual("2018-01-01", bookingResponse.booking.bookingdates.checkin);
+            Assert.AreEqual("2019-01-01", bookingResponse.booking.bookingdates.checkout);
+            Assert.AreEqual("Breakfast", bookingResponse.booking.additionalneeds);
+        }
+
+        [Then(@"response contains json from file (.*)")]
+        public void ThenResponseContainsSameJSON(string filePath)
+        {
+            dynamic responseJson = JObject.Parse(response.Content);
+            string jsonBody = File.ReadAllText(filePath);
+            dynamic expectedJson = JObject.Parse(jsonBody);
+            Assert.AreEqual(expectedJson.ToString(), responseJson.ToString(), "Response does not contain the same JSON as expected.");
+        }
+
+        [Then(@"response contains booking IDs")]
+        public void ThenResponseContainsBookingIDs()
+        {
+            List<BookingIdResponse> bookingIdResponses = JsonConvert.DeserializeObject<List<BookingIdResponse>>(response.Content);
+
+            foreach (var bookingIdResponse in bookingIdResponses)
             {
-                ""firstname"": ""Jim"",
-                ""lastname"": ""Brown"",
-                ""totalprice"": 111,
-                ""depositpaid"": true,
-                ""bookingdates"": {
-                    ""checkin"": ""2018-01-01"",
-                    ""checkout"": ""2019-01-01""
-                },
-                ""additionalneeds"": ""Breakfast""
-            }");
+                Assert.IsTrue(bookingIdResponse.bookingid >= 0);
+            }
+        }
 
-
-            string expectedJsonString = expectedJson.ToString(Formatting.None);
-
-            string responseJsonString = JObject.FromObject(responseObject.booking).ToString(Formatting.None);
-
-            Assert.AreEqual(expectedJsonString, responseJsonString);
+        [Then(@"response contains json with value of new currency")]
+        public void ThenResponseContainsJSONWithValueOfNewCurrency()
+        {
+            string jsonResponse = response.Content;
+            CurrencyConversionResponse currencyResponse = JsonConvert.DeserializeObject<CurrencyConversionResponse>(jsonResponse);
+            Assert.IsTrue(currencyResponse.Valid, "The 'valid' field is not true");
+            Assert.AreEqual("USD", currencyResponse.FromType, "Invalid 'from-type' value");
+            Assert.AreEqual(100, currencyResponse.FromValue, "Invalid 'from-value' value");
+            Assert.IsTrue(currencyResponse.Result > 0, "Invalid 'result' value");
+            Assert.IsTrue(currencyResponse.ResultFloat > 0, "Invalid 'result-float' value");
+            Assert.AreEqual("EUR", currencyResponse.ToType, "Invalid 'to-type' value");
         }
     }
 }
-

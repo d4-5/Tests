@@ -17,13 +17,10 @@ namespace SpecFlowPageObjectWebDriver.Steps
         [BeforeFeature]
         public static void BeforeFeauture()
         {
-
-            driver = new ChromeDriver(@".\");
+            driver = new ChromeDriver();
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
-
-
         }
         [AfterFeature]
         public static void AfterFeature()

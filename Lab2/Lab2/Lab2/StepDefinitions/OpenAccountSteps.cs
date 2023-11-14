@@ -18,21 +18,36 @@ namespace SpecFlowPageObjectWebDriver.Steps
             driver.Url = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/manager";
             managerPage = new ManagerPage(driver);
         }
-
-        [When(@"click (.*), chose customer name: (.*), currency: (.*) and click (.*)")]
-        public void WhenChoseCustomerCurrencyAndClickProcess(string Button1, string CustomerName, string Currency, string Button2)
+        [When(@"click (.*)")]
+        public void WhenClick(string Button)
         {
-            managerPage.ClickButton(Button1);
+            managerPage.ClickButton(Button);
+        }
+        [When(@"chose customer name: (.*)")]
+        public void WhenChoseCustomerName(string CustomerName)
+        {
             managerPage.ChoseCustomerName(CustomerName);
+        }
+        [When(@"chose currency: (.*)")]
+        public void WhenChoseCurrency(string Currency)
+        {
             managerPage.ChoseCurrency(Currency);
-            managerPage.ClickButton(Button2);
         }
 
         [Then(@"the result should be an alert that contains (.*)")]
         public void ThenTheResultShouldContain(string text)
         {
-            string AlertMessage = managerPage.AlertText();
+            IAlert alert = managerPage.Alert();
+            string AlertMessage = alert.Text;
+            alert.Accept();
             Assert.That(AlertMessage.Contains(text));
+        }
+
+        [Then(@"the result should be no alert")]
+        public void ThenTheResultShouldBeNoAlert()
+        {
+            IAlert alert = managerPage.Alert();
+            Assert.IsNull(alert);
         }
     }
 }

@@ -14,13 +14,8 @@ namespace PageObject
         private static WebDriverWait wait;
         public ManagerPage(IWebDriver webDriver) : base(webDriver)
         {
-            wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+            wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
         }
-        //private IWebElement CustomerName(string name) => driver.FindElement(By.XPath($"//option[text()=\"{name}\"]"));
-        //rivate IWebElement Currency(string currency) => driver.FindElement(By.XPath($"//option[text()=\"{currency}\"]"));
-
-        //public void ChoseCustomerName(string name) => CustomerName(name).Click();
-        //public void ChoseCurrency(string currency) => Currency(currency).Click();
         public void ChoseCustomerName(string name)
         {
             var dropDown = driver.FindElement(By.Id("userSelect"));
@@ -33,19 +28,17 @@ namespace PageObject
             var selectElement = new SelectElement(dropDown);
             selectElement.SelectByText(currency);
         }
-
-        private IWebElement CustomerNameDropdown() => driver.FindElement(By.Id("your-dropdown-element-id"));
         public void ClickButton(string button) => driver.FindElement(By.XPath($"//button[contains(text(), '{button}')]")).Click();
-        public string AlertText()
+        public IAlert Alert()
         {
             try
             {
                 IAlert alert = wait.Until(ExpectedConditions.AlertIsPresent());
-                return alert.Text;
+                return alert;
             }
-            catch (NoAlertPresentException)
+            catch (WebDriverTimeoutException)
             {
-                return string.Empty;
+                return null;
             }
         }
     }

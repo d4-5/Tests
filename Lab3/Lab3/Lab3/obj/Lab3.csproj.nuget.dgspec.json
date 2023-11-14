@@ -13,8 +13,12 @@
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\HP\\Desktop\\Tests\\Lab3\\Lab3\\Lab3\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -42,15 +47,15 @@
           "dependencies": {
             "FluentAssertions": {
               "target": "Package",
-              "version": "[6.2.0, )"
+              "version": "[6.12.0, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[17.0.0, )"
+              "version": "[17.8.0, )"
             },
             "NUnit3TestAdapter": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[4.5.0, )"
             },
             "RestSharp": {
               "target": "Package",
@@ -58,7 +63,7 @@
             },
             "SpecFlow.NUnit": {
               "target": "Package",
-              "version": "[3.9.40, )"
+              "version": "[3.9.74, )"
             },
             "SpecFlow.Plus.LivingDocPlugin": {
               "target": "Package",
@@ -66,7 +71,7 @@
             },
             "nunit": {
               "target": "Package",
-              "version": "[3.13.2, )"
+              "version": "[3.14.0, )"
             }
           },
           "imports": [
@@ -85,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

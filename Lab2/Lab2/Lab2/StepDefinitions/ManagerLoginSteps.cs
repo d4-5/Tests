@@ -18,16 +18,22 @@ namespace SpecFlowPageObjectWebDriver.Steps
             loginPage = new LoginPage(driver);
         }
 
-        [When(@"click Bank Manager Login")]
+        [When(@"press Bank Manager Login button")]
         public void WhenClickBankManagerLogin()
         {
             loginPage.ClickBankManagerLogin();
         }
 
-        [Then(@"the result should be page that contains button (.*)")]
-        public void ThenTheResultShouldBePageThatHasButton(string button)
+        [Then(@"the result should be page that contains buttons: (.*), (.*), (.*)")]
+        public void ThenTheResultShouldBePageThatHasButtons(string buttonName1, string buttonName2, string buttonName3)
         {
-            Assert.IsTrue(loginPage.ButtonExists(button));
+            string[] buttonNames = { buttonName1, buttonName2, buttonName3 };
+
+            foreach (var buttonName in buttonNames)
+            {
+                Assert.IsTrue(loginPage.ButtonExists(buttonName));
+            }
         }
+
     }
 }
