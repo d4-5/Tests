@@ -6,8 +6,9 @@ Scenario: Update Booking
 	And create PUT request to booking/{id}
 	And set parameter id
 	And add header Accept with value application/json
-	And add json with booking
+	And add header Content-Type with value application/json
 	And add authorization token
+	And add json with booking
 	When send request
 	Then response is Ok
 	And response contains json with booking

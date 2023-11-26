@@ -17,7 +17,7 @@ public class BookingDates
     public string checkout { get; set; }
 }
 
-public class BookingResponse
+public class BookingAndID
 {
     public int bookingid { get; set; }
     public Booking booking { get; set; }

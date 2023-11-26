@@ -95,7 +95,7 @@ namespace SpecFlowRestApi.Steps
             t.GivenAddJSONWithBooking();
             t.WhenSendRequest();
             string jsonResponse = t.response.Content;
-            BookingResponse bookingResponse = JsonConvert.DeserializeObject<BookingResponse>(jsonResponse);
+            BookingAndID bookingResponse = JsonConvert.DeserializeObject<BookingAndID>(jsonResponse);
             id = bookingResponse.bookingid;
         }
         [Given(@"set parameter id")]
@@ -141,11 +141,11 @@ namespace SpecFlowRestApi.Steps
             request.AddJsonBody(booking);
         }
 
-        [Then(@"response contains json with booking")]
-        public void ThenResponseContainsJSONWithBooking()
+        [Then(@"response contains json with booking and booking ID")]
+        public void ThenResponseContainsJSONWithBookingAndBokingID()
         {
             string jsonResponse = response.Content;
-            BookingResponse bookingResponse = JsonConvert.DeserializeObject<BookingResponse>(jsonResponse);
+            BookingAndID bookingResponse = JsonConvert.DeserializeObject<BookingAndID>(jsonResponse);
 
             Assert.GreaterOrEqual(bookingResponse.bookingid, 0);
             Assert.AreEqual("Jim", bookingResponse.booking.firstname);
@@ -156,16 +156,20 @@ namespace SpecFlowRestApi.Steps
             Assert.AreEqual("2019-01-01", bookingResponse.booking.bookingdates.checkout);
             Assert.AreEqual("Breakfast", bookingResponse.booking.additionalneeds);
         }
-
-        [Then(@"response contains json from file (.*)")]
-        public void ThenResponseContainsSameJSON(string filePath)
+        [Then(@"response contains json with booking")]
+        public void ThenResponseContainsJSONWithBooking()
         {
-            dynamic responseJson = JObject.Parse(response.Content);
-            string jsonBody = File.ReadAllText(filePath);
-            dynamic expectedJson = JObject.Parse(jsonBody);
-            Assert.AreEqual(expectedJson.ToString(), responseJson.ToString(), "Response does not contain the same JSON as expected.");
-        }
+            string jsonResponse = response.Content;
+            Booking bookingResponse = JsonConvert.DeserializeObject<Booking>(jsonResponse);
 
+            Assert.AreEqual("Jim", bookingResponse.firstname);
+            Assert.AreEqual("Brown", bookingResponse.lastname);
+            Assert.AreEqual(111, bookingResponse.totalprice);
+            Assert.IsTrue(bookingResponse.depositpaid);
+            Assert.AreEqual("2018-01-01", bookingResponse.bookingdates.checkin);
+            Assert.AreEqual("2019-01-01", bookingResponse.bookingdates.checkout);
+            Assert.AreEqual("Breakfast", bookingResponse.additionalneeds);
+        }
         [Then(@"response contains booking IDs")]
         public void ThenResponseContainsBookingIDs()
         {

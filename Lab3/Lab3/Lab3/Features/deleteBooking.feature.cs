@@ -96,10 +96,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("connect to https://restful-booker.herokuapp.com", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
- testRunner.And("create booking", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("create DELETE request to booking/{id}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
- testRunner.And("create DELETE request to booking/{id}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("create booking", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
  testRunner.And("set parameter id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

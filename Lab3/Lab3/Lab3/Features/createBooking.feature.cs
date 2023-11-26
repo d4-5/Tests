@@ -94,7 +94,7 @@ this.ScenarioInitialize(scenarioInfo);
     testRunner.Given("connect to https://restful-booker.herokuapp.com", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 5
-    testRunner.And("create POST request to booking/{id}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.And("create POST request to booking", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 6
     testRunner.And("add header Accept with value application/json", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -109,7 +109,7 @@ this.ScenarioInitialize(scenarioInfo);
     testRunner.Then("response is Ok", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 10
-    testRunner.And("response contains json with booking", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.And("response contains json with booking and booking ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
